@@ -1,27 +1,4 @@
 enchant();
-/*
-window.onload = function() {
-    var game = new Game(320, 320);
-    game.fps = 20;
-    game.preload('map0.png');
-    game.onload = function() {
-        var map = new Map(16, 16);
-        map.image = game.assets['map0.png'];
-        map.loadData(
-            [
-            [4, 4, 4, 4, 4, 4, 4],
-            [4, 5, 5, 5, 5, 5, 4],
-            [4, 5, 4, 5, 4, 5, 4],
-            [4, 5, 5, 5, 5, 5, 4],
-            [4, 5, 4, 5, 4, 5, 4],
-            [4, 5, 5, 5, 5, 5, 4],
-            [4, 4, 4, 4, 4, 4, 4]
-            ]
-        );
-        game.rootScene.addChild(map);
-    };
-    game.start();
-};*/
 
 
 var mapData1_0 = [
@@ -184,6 +161,12 @@ Player = Class.create(Sprite, {
             map.hitTest(this.x + this.width - 10, this.y + this.height)  // lower right
             === true) {
             console.log('hit');
+            switch(this.direction){
+                case -1: this.y += this.speed; break;
+                case  2: this.x -= this.speed;break;
+                case -2: this.x += this.speed;break;
+                case  1: this.y -= this.speed;break;
+            }
         }
     }
 });
