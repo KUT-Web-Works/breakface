@@ -105,10 +105,10 @@ Player = Class.create(Sprite, {
         this.flag = false;
     },
     getCenterPosX: function(){
-        return this.x + 8;
+        return this.x + 16;
     },
     getCenterPosY: function(){
-        return this.x + 8;
+        return this.x + 16;
     },
     onenterframe: function(){
         this.movingFlag = false;
@@ -117,7 +117,7 @@ Player = Class.create(Sprite, {
             if(game.input.up){
                 this.y -= this.speed;
                 this.movingFlag = true;
-                this.frame = [31, 30, 31, 32];
+                this.frame = [31, 31, 31, 30, 30, 30, 31, 31, 31, 32, 32, 32];
                 this.direction = -1;
             }
         }
@@ -128,7 +128,7 @@ Player = Class.create(Sprite, {
                 }
                 this.x += this.speed;
                 this.movingFlag = true;
-                this.frame = [22, 21, 22, 23];
+                this.frame = [22, 22, 22, 21, 21, 21, 22, 22, 22, 23, 23, 23];
                 this.direction = 2;
             }
         }
@@ -139,7 +139,7 @@ Player = Class.create(Sprite, {
                 }
                 this.x -= this.speed;
                 this.movingFlag = true;
-                this.frame = [13, 12, 13, 14];
+                this.frame = [13, 13, 13, 12, 12, 12, 13, 13, 13, 14, 14, 14];
                 this.direction = -2;
             }
         }
@@ -147,7 +147,7 @@ Player = Class.create(Sprite, {
             if(game.input.down){
                 this.y += this.speed;
                 this.movingFlag = true;
-                this.frame = [4, 3, 4, 5];
+                this.frame = [4, 4, 4, 3, 3, 3, 4, 4, 4, 5, 5, 5];
                 this.direction = 1;
             }
         }
