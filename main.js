@@ -104,6 +104,12 @@ Player = Class.create(Sprite, {
     disable: function(){
         this.flag = false;
     },
+    getCenterPosX: function(){
+        return this.x + 8;
+    },
+    getCenterPosY: function(){
+        return this.x + 8;
+    },
     onenterframe: function(){
         this.movingFlag = false;
 
@@ -177,9 +183,23 @@ BreakFace = Class.create({
         map = new Map(16, 16);
         scene_game = new Scene();
 
+        this.mapWidth = 30;
+        this.mapHeight = 20;
+
         map.image = game.assets['./img/map0.png'];
         map.loadData(mapData1_0, mapData1_1);
         map.collisionData = mapData1_col;
+        map_aster = new Array(this.mapHeight);
+        for(i = 0; i < this.mapHeight; i++){
+            map_aster[i] = new Array(this.mapWidth);
+            for(j = 0; j < this.mapWidth; j++){
+                if(mapData1_col[i][j] === 0){
+                    map_aster[i][j] = 1;
+                }else{
+                    map_aster[i][j] = 0;
+                }
+            }
+        }
 
         player = new Player(50, 50);
 
