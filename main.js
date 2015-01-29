@@ -80,6 +80,34 @@ var mapData1_col = [
 ];
 
 
+var map_aster;
+var graph;
+
+
+Position = function(x, y){
+    this.x = Math.floor(x / 16);
+    this.y = Math.floor(y / 16);
+}
+
+
+Monster = Class.create(Sprite, {
+    initialize: function(x, y){
+        Sprite.call(this, 32, 32);
+        this.x = x;
+        this.y = y;
+    },
+    tracking: function(targetPos){
+        var currentPos = new Position(this.x + 16, this.y + 16);
+        console.log(currentPos.y, currentPos.x)
+        var start = graph.grid[currentPos.y][currentPos.x];
+        var end = graph.grid[targetPos.y][targetPos.x];
+        this.shortestPath = astar.search(graph, start, end);
+        for(var i = 0; i < this.shortestPath.length;i++){
+            console.log(this.shortestPath[i]);
+        }
+    }
+});
+
 
 Player = Class.create(Sprite, {
     initialize: function(x, y){
@@ -104,11 +132,9 @@ Player = Class.create(Sprite, {
     disable: function(){
         this.flag = false;
     },
-    getCenterPosX: function(){
-        return this.x + 16;
-    },
-    getCenterPosY: function(){
-        return this.x + 16;
+    getCurrentPos: function(){
+        var ret = new Position(this.x + 16, this.y + 16);
+        return ret;
     },
     onenterframe: function(){
         this.movingFlag = false;
@@ -166,7 +192,6 @@ Player = Class.create(Sprite, {
             map.hitTest(this.x + 10, this.y + this.height) ||            // lower left
             map.hitTest(this.x + this.width - 10, this.y + this.height)  // lower right
             === true) {
-            console.log('hit');
             switch(this.direction){
                 case -1: this.y += this.speed; break;
                 case  2: this.x -= this.speed;break;
@@ -174,6 +199,8 @@ Player = Class.create(Sprite, {
                 case  1: this.y -= this.speed;break;
             }
         }
+        //var pos = this.getCurrentPos();
+        //console.log();
     }
 });
 
@@ -200,8 +227,11 @@ BreakFace = Class.create({
                 }
             }
         }
+        graph = new Graph(map_aster);
 
         player = new Player(50, 50);
+        monster = new Monster(150, 30);
+        monster.tracking(player.getCurrentPos());
 
         scene_game.addChild(map);
         scene_game.addChild(player);
