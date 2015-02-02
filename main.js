@@ -107,22 +107,31 @@ Monster = Class.create(Sprite, {
             return;
         }
         if(this.old_target_x != this.target_x || this.old_target_y != this.target_y){
-            this.old_target_x = this.target_x;
-            this.old_target_y = this.target_y;
             var start = graph.grid[this.current_y][this.current_x];
             var end = graph.grid[this.target_y][this.target_x];
             this.shortestPath = astar.search(graph, start, end);
+            if(this.shortestPath[0] == undefined){
+                console.log(start, end, "bug");
+                return;
+            }
+            this.old_target_x = this.target_x;
+            this.old_target_y = this.target_y;
             /*for(var i = 0; i < this.shortestPath.length;i++){
                 console.log(this.shortestPath[i]);
             }*/
             this.step = 0;
-            console.log(this.current_x, this.current_y, this.target_x, this.target_y, "bug");
+
+            //console.log(this.shortestPath);
             this.next_x = this.shortestPath[this.step].y;
             this.next_y = this.shortestPath[this.step].x;
             //console.log(this.next_x, this.next_y);
         }else{
             if(this.current_y == this.next_y && this.current_x == this.next_x){
                 this.step++;
+                if(this.step >= this.shortestPath.length){
+                    console.log("step", this.step);
+                    return;
+                }
                 this.next_x = this.shortestPath[this.step].y;
                 this.next_y = this.shortestPath[this.step].x;
             }
@@ -147,7 +156,7 @@ Monster = Class.create(Sprite, {
         this.target_x = Math.floor((this.target.x + 16) / 16);
         this.target_y = Math.floor((this.target.y + 32) / 16);
         this.tracking();
-        console.log(this.current_x, this.current_y, this.target_x, this.target_y);
+        //console.log(this.current_x, this.current_y, this.target_x, this.target_y);
         //this.tracking(Math.floor((this.target.x + 16) / 16), Math.floor((this.target.y + 16) / 16));
     }
 });
@@ -273,7 +282,7 @@ BreakFace = Class.create({
         }
         graph = new Graph(map_aster);
 
-        player = new Player(50, 50);
+        player = new Player(300, 50);
         monster = new Monster(330, 208, player);
         monster.tracking(player.getCurrentPos());
 
