@@ -91,20 +91,64 @@ Position = function(x, y){
 
 
 Monster = Class.create(Sprite, {
-    initialize: function(x, y){
+    initialize: function(x, y, target){
         Sprite.call(this, 32, 32);
+        this.image = game.assets['./img/chara0.png'];
+        this.frame = [7];
         this.x = x;
         this.y = y;
+        this.speed = 1;
+        this.target = target;
+        this.current_x = Math.floor((this.x + 16) / 16);
+        this.current_y = Math.floor((this.y + 32) / 16);
     },
-    tracking: function(targetPos){
-        var currentPos = new Position(this.x + 16, this.y + 16);
-        console.log(currentPos.y, currentPos.x)
-        var start = graph.grid[currentPos.y][currentPos.x];
-        var end = graph.grid[targetPos.y][targetPos.x];
-        this.shortestPath = astar.search(graph, start, end);
-        for(var i = 0; i < this.shortestPath.length;i++){
-            console.log(this.shortestPath[i]);
+    tracking: function(){
+        if(this.current_x == this.target_x && this.current_y == this.target_y){
+            return;
         }
+        if(this.old_target_x != this.target_x || this.old_target_y != this.target_y){
+            this.old_target_x = this.target_x;
+            this.old_target_y = this.target_y;
+            var start = graph.grid[this.current_y][this.current_x];
+            var end = graph.grid[this.target_y][this.target_x];
+            this.shortestPath = astar.search(graph, start, end);
+            /*for(var i = 0; i < this.shortestPath.length;i++){
+                console.log(this.shortestPath[i]);
+            }*/
+            this.step = 0;
+            console.log(this.current_x, this.current_y, this.target_x, this.target_y, "bug");
+            this.next_x = this.shortestPath[this.step].y;
+            this.next_y = this.shortestPath[this.step].x;
+            //console.log(this.next_x, this.next_y);
+        }else{
+            if(this.current_y == this.next_y && this.current_x == this.next_x){
+                this.step++;
+                this.next_x = this.shortestPath[this.step].y;
+                this.next_y = this.shortestPath[this.step].x;
+            }
+        }
+
+        if(this.current_y < this.next_y){
+            this.y += this.speed;
+        }else if(this.current_y > this.next_y){
+            this.y -= this.speed;
+        }
+
+        if(this.current_x < this.next_x){
+            this.x += this.speed;
+        }else if(this.current_x > this.next_x){
+            this.x -= this.speed;
+        }
+        //console.log(this.current_x, this.current_y, this.next_x, this.next_y);
+    },
+    onenterframe: function(){
+        this.current_x = Math.floor((this.x + 16) / 16);
+        this.current_y = Math.floor((this.y + 32) / 16);
+        this.target_x = Math.floor((this.target.x + 16) / 16);
+        this.target_y = Math.floor((this.target.y + 32) / 16);
+        this.tracking();
+        console.log(this.current_x, this.current_y, this.target_x, this.target_y);
+        //this.tracking(Math.floor((this.target.x + 16) / 16), Math.floor((this.target.y + 16) / 16));
     }
 });
 
@@ -230,11 +274,12 @@ BreakFace = Class.create({
         graph = new Graph(map_aster);
 
         player = new Player(50, 50);
-        monster = new Monster(150, 30);
+        monster = new Monster(330, 208, player);
         monster.tracking(player.getCurrentPos());
 
         scene_game.addChild(map);
         scene_game.addChild(player);
+        scene_game.addChild(monster);
 
         game.pushScene(scene_game);
     },
