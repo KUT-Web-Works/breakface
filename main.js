@@ -81,7 +81,7 @@ var mapData1_col = [
 
 
 var map_aster;
-var graph;
+//var graph;
 
 
 Position = function(x, y){
@@ -101,30 +101,26 @@ Monster = Class.create(Sprite, {
         this.target = target;
         this.current_x = Math.floor((this.x + 16) / 16);
         this.current_y = Math.floor((this.y + 32) / 16);
+        //this.debug();
     },
     tracking: function(){
         if(this.current_x == this.target_x && this.current_y == this.target_y){
             return;
         }
         if(this.old_target_x != this.target_x || this.old_target_y != this.target_y){
+            var graph = new Graph(map_aster);
             var start = graph.grid[this.current_y][this.current_x];
             var end = graph.grid[this.target_y][this.target_x];
             this.shortestPath = astar.search(graph, start, end);
             if(this.shortestPath[0] == undefined){
-                console.log(start, end, "bug");
+                //console.log(start, end, "bug");
                 return;
             }
             this.old_target_x = this.target_x;
             this.old_target_y = this.target_y;
-            /*for(var i = 0; i < this.shortestPath.length;i++){
-                console.log(this.shortestPath[i]);
-            }*/
             this.step = 0;
-
-            //console.log(this.shortestPath);
             this.next_x = this.shortestPath[this.step].y;
             this.next_y = this.shortestPath[this.step].x;
-            //console.log(this.next_x, this.next_y);
         }else{
             if(this.current_y == this.next_y && this.current_x == this.next_x){
                 this.step++;
@@ -148,7 +144,6 @@ Monster = Class.create(Sprite, {
         }else if(this.current_x > this.next_x){
             this.x -= this.speed;
         }
-        //console.log(this.current_x, this.current_y, this.next_x, this.next_y);
     },
     onenterframe: function(){
         this.current_x = Math.floor((this.x + 16) / 16);
@@ -156,9 +151,7 @@ Monster = Class.create(Sprite, {
         this.target_x = Math.floor((this.target.x + 16) / 16);
         this.target_y = Math.floor((this.target.y + 32) / 16);
         this.tracking();
-        //console.log(this.current_x, this.current_y, this.target_x, this.target_y);
-        //this.tracking(Math.floor((this.target.x + 16) / 16), Math.floor((this.target.y + 16) / 16));
-    }
+    },
 });
 
 
@@ -280,7 +273,7 @@ BreakFace = Class.create({
                 }
             }
         }
-        graph = new Graph(map_aster);
+        //var graph = new Graph(map_aster);
 
         player = new Player(300, 50);
         monster = new Monster(330, 208, player);
