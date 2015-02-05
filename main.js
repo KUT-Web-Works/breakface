@@ -84,8 +84,8 @@ var map_aster;
 
 
 Position = function(x, y){
-    this.x = Math.floor(x / 16);
-    this.y = Math.floor(y / 16);
+    this.x = x;
+    this.y = y;
 }
 
 
@@ -303,6 +303,12 @@ Map1 = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData1_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData1_0, mapData1_1);
+        this.eventPos = {
+            'A': new Position(0, 50),
+            'B': new Position(450, 50),
+            'C': new Position(0, 230),
+            'D': new Position(450, 230),
+        };
     }
 });
 
