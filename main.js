@@ -89,6 +89,10 @@ Position = function(x, y){
     this.y = Math.floor(y / 16);
 }
 
+const MOVE_UP = 1;
+const MOVE_DOWN = 2;
+const MOVE_RIGHT = 3;
+const MOVE_LEFT = 4;
 
 Monster = Class.create(Sprite, {
     initialize: function(x, y, target){
@@ -97,10 +101,11 @@ Monster = Class.create(Sprite, {
         this.frame = [7];
         this.x = x;
         this.y = y;
-        this.speed = 2;
+        this.speed = 3;
         this.target = target;
         this.current_x = Math.floor((this.x + 16) / 16);
         this.current_y = Math.floor((this.y + 32) / 16);
+        this.old_move = 0;
         //this.debug();
     },
     tracking: function(){
@@ -133,16 +138,33 @@ Monster = Class.create(Sprite, {
             }
         }
 
+
         if(this.current_y < this.next_y){
             this.y += this.speed;
+            if(this.old_move !== MOVE_DOWN){
+                this.old_move = MOVE_DOWN;
+                this.frame = [7, 7, 6, 6, 7, 7, 8, 8];
+            }
         }else if(this.current_y > this.next_y){
             this.y -= this.speed;
+            if(this.old_move !== MOVE_UP){
+                this.old_move = MOVE_UP;
+                this.frame = [34, 34, 33, 33, 34, 34, 35, 35];
+            }
         }
 
         if(this.current_x < this.next_x){
             this.x += this.speed;
+            if(this.old_move !== MOVE_RIGHT){
+                this.old_move = MOVE_RIGHT;
+                this.frame = [25, 25, 24, 24, 25, 25, 26, 26];
+            }
         }else if(this.current_x > this.next_x){
             this.x -= this.speed;
+            if(this.old_move !== MOVE_LEFT){
+                this.old_move = MOVE_LEFT;
+                this.frame = [16, 16, 15, 15, 16, 16, 17, 17];
+            }
         }
     },
     onenterframe: function(){
