@@ -37,7 +37,7 @@ var mapData1_1 = [
     [10, 10, 10, 10, 10,    10, 10, 10, 10, 10,     10, 10, 10, 10, 10,    10, 10, 10, 10, 10,     10, 10, 10, 10, 10,    10, 10, 10, 10, 10,],
     [10, 10, 10, 10, 10,    10, 10, 10, 10, 10,     10, 10, 10, 10, 10,    10, 10, 10, 10, 10,     10, 10, 10, 10, 10,    10, 10, 10, 10, 10,],
     [ 4,  4,  4,  4,  4,     4,  4,  4,  4,  4,      4,  4,  3, 10, 10,    10, 10,  3,  4,  4,      4,  4,  4,  4,  4,     4,  4,  4,  4,  4,],
-    [-1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,     -1, -1,  3, 10, 10,    10, 10,  3 , -1, -1,     -1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,],
+    [-1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,     -1, -1,  3, 10, 10,    10, 10,  3, -1, -1,     -1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,],
     [-1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,     -1, -1,  3, 10, 10,    10, 10,  3, -1, -1,     -1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,],
 
     [-1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,     -1, -1,  3, 10, 10,    10, 10,  3, -1, -1,     -1, -1, -1, -1, -1,    -1, -1, -1, -1, -1,],
@@ -81,7 +81,6 @@ var mapData1_col = [
 
 
 var map_aster;
-//var graph;
 
 
 Position = function(x, y){
@@ -89,10 +88,15 @@ Position = function(x, y){
     this.y = Math.floor(y / 16);
 }
 
-const MOVE_UP = 1;
-const MOVE_DOWN = 2;
-const MOVE_RIGHT = 3;
-const MOVE_LEFT = 4;
+
+/*
+ * ばけもんに関する処理
+ * A*アルゴリズムの本体は"./lib/aster.js"に
+ */
+ const MOVE_UP = 1;
+ const MOVE_DOWN = 2;
+ const MOVE_RIGHT = 3;
+ const MOVE_LEFT = 4;
 
 Monster = Class.create(Sprite, {
     initialize: function(x, y, target){
@@ -106,7 +110,6 @@ Monster = Class.create(Sprite, {
         this.current_x = Math.floor((this.x + 16) / 16);
         this.current_y = Math.floor((this.y + 32) / 16);
         this.old_move = 0;
-        //this.debug();
     },
     tracking: function(){
         if(this.current_x == this.target_x && this.current_y == this.target_y){
@@ -176,7 +179,9 @@ Monster = Class.create(Sprite, {
     },
 });
 
-
+/*
+ * プレイヤーに関する処理
+ */
 Player = Class.create(Sprite, {
     initialize: function(x, y){
         Sprite.call(this, 32, 32);
@@ -192,7 +197,6 @@ Player = Class.create(Sprite, {
         this.x = x;
         this.y = y;
         this.frame = [4];
-        //this.enable();
     },
     enable: function(){
         this.flag = true;
@@ -267,49 +271,57 @@ Player = Class.create(Sprite, {
                 case  1: this.y -= this.speed;break;
             }
         }
-        //var pos = this.getCurrentPos();
-        //console.log();
     }
 });
 
+/*
+ * マップの壁との衝突判定とA*のための配列の準備
+ */
+BreakFace_Map = Class.create(Map, {
+    initialize: function(w, h, colData){
+        Map.call(this, 16, 16);
+        this.mapWidth = w;
+        this.mapHeight = h;
+        this.collisionData = colData;
 
-BreakFace = Class.create({
-    initialize: function(){
-        map = new Map(16, 16);
-        scene_game = new Scene();
-
-        this.mapWidth = 30;
-        this.mapHeight = 20;
-
-        map.image = game.assets['./img/map0.png'];
-        map.loadData(mapData1_0, mapData1_1);
-        map.collisionData = mapData1_col;
         map_aster = new Array(this.mapHeight);
         for(i = 0; i < this.mapHeight; i++){
             map_aster[i] = new Array(this.mapWidth);
             for(j = 0; j < this.mapWidth; j++){
-                if(mapData1_col[i][j] === 0){
+                if(colData[i][j] === 0){
                     map_aster[i][j] = 1;
                 }else{
                     map_aster[i][j] = 0;
                 }
             }
         }
-        //var graph = new Graph(map_aster);
-
-        player = new Player(300, 50);
-        monster = new Monster(330, 208, player);
-        monster.tracking(player.getCurrentPos());
-
-        scene_game.addChild(map);
-        scene_game.addChild(player);
-        scene_game.addChild(monster);
-
-        game.pushScene(scene_game);
     },
 });
 
+Map1 = Class.create(BreakFace_Map, {
+    initialize: function(){
+        BreakFace_Map.call(this, 30, 20, mapData1_col);
+        this.image = game.assets['./img/map0.png'];
+        this.loadData(mapData1_0, mapData1_1);
+    }
+});
 
+/*
+ * ゲーム本体のシーン
+ */
+BreakFace = Class.create(Scene, {
+    initialize: function(){
+        Scene.call(this);
+        map = new Map1();
+        player = new Player(300, 50);
+        monster = new Monster(330, 208, player);
+        this.addChild(map);
+        this.addChild(player);
+        this.addChild(monster);
+    },
+});
+
+/* ロード時に呼び出される関数 */
 window.onload = function () {
     game = new Game(480, 320);
     game.preload('./img/map0.png', './img/chara0.png');
@@ -328,6 +340,7 @@ window.onload = function () {
 
         scene_top.addEventListener('touchend', function(){
             breakface = new BreakFace();
+            game.pushScene(breakface);
         });
 
         game.pushScene(scene_top);
