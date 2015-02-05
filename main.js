@@ -465,11 +465,11 @@ BreakFace_Map = Class.create(Map, {
     },
 });
 
-Map1 = Class.create(BreakFace_Map, {
+Map2 = Class.create(BreakFace_Map, {
     initialize: function(){
-        BreakFace_Map.call(this, 30, 20, mapData1_col);
+        BreakFace_Map.call(this, 30, 20, mapData2_col);
         this.image = game.assets['./img/map0.png'];
-        this.loadData(mapData1_0, mapData1_1);
+        this.loadData(mapData2_0, mapData2_1);
         this.eventPos = {
             'A': new Position(0, 50),
             'B': new Position(450, 50),
