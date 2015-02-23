@@ -1,4 +1,4 @@
-//‰æ–Ê‚Ì‘JˆÚ
+//ç”»é¢é·ç§»
 transitions: function(x, y, map) {
   var nowMap = this.map;
   var newPosition;
