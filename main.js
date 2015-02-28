@@ -271,7 +271,7 @@ Monster = Class.create(Sprite, {
         this.frame = [7];
         this.x = x;
         this.y = y;
-        this.speed = 2;
+        this.speed = 3;
         this.target = target;
         this.current_x = Math.floor((this.x + 16) / 16);
         this.current_y = Math.floor((this.y + 32) / 16);
@@ -517,10 +517,10 @@ BreakFace = Class.create(Scene, {
         Scene.call(this);
         map = new Map4();
         player = new Player(300, 50);
-        //monster = new Monster(330, 208, player);
+        monster = new Monster(330, 208, player);
         this.addChild(map);
         this.addChild(player);
-        //this.addChild(monster);
+        this.addChild(monster);
     },
 });
 
