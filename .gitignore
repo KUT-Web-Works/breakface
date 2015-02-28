@@ -3,6 +3,7 @@
 ._*
 *~
 *.TMP
+*.db
 
 #MacOS
 .DS_Store
