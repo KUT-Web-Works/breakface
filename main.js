@@ -277,6 +277,20 @@ Map1_4 = Class.create(BreakFace_Map, {
     }
 });
 
+Map2_1 = Class.create(BreakFace_Map, {
+    initialize: function(){
+        BreakFace_Map.call(this, 30, 20, mapData2_1_col);
+        this.image = game.assets['./img/map0.png'];
+        this.loadData(mapData2_1_0, mapData2_1_1);
+        this.eventPos = {
+            'A': new Position(0, 50),
+            'B': new Position(450, 50),
+            'C': new Position(0, 230),
+            'D': new Position(450, 230),
+        };
+    }
+});
+
 Map2_2 = Class.create(BreakFace_Map, {
     initialize: function(){
         BreakFace_Map.call(this, 30, 20, mapData2_2_col);
@@ -327,7 +341,7 @@ Map2_4 = Class.create(BreakFace_Map, {
 BreakFace = Class.create(Scene, {
     initialize: function(){
         Scene.call(this);
-        map = new Map1_1();
+        map = new Map2_1;
         player = new Player(300, 50);
         monster = new Monster(330, 208, player);
         this.addChild(map);
