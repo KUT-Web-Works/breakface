@@ -1,7 +1,8 @@
 enchant();
 
-
+var breakface;
 var map_aster;
+var mapObjects;
 
 
 Position = function(x, y){
@@ -113,6 +114,45 @@ Player = Class.create(Sprite, {
         this.directionY = 0
         this.movingFlag = false;
         this.direction = 1;
+
+        /* プレイヤーの前にオブジェクトがあるか否か */
+        game.addEventListener('spacebuttondown', function(){
+            var check_x, check_y;
+            switch(player.direction){
+                /* up */
+                case -1:
+                    check_x = player.x + 16;
+                    check_y = player.y - 16;
+                    break;
+                /* right */
+                case 2:
+                    check_x = player.x + 48;
+                    check_y = player.y + 16;
+                    break;
+                /* left */
+                case -2:
+                    check_x = player.x - 16;
+                    check_y = player.y + 16;
+                    break;
+                /* down */
+                case 1:
+                    check_x = player.x + 16;
+                    check_y = player.y + 48;
+                    break;
+                default:
+                    /* error */
+                    break;
+            }
+            check_x = player.x;
+            check_y = player.y;
+            for(i = 0; i < mapObjects.length; i++){
+                var a = player.isHitObject(mapObjects[i], check_x, check_y);
+                if(a){
+                    mapObjects[i].actionEvent();
+                    break;
+                }
+            }
+        });
     },
     setPos: function(x, y){
         this.x = x;
@@ -128,6 +168,19 @@ Player = Class.create(Sprite, {
     getCurrentPos: function(){
         var ret = new Position(this.x + 16, this.y + 16);
         return ret;
+    },
+    isHitObject: function(mapObject, check_x, check_y){
+        console.log(mapObject);
+        console.log(mapObject.x, mapObject.y, mapObject.bx, mapObject.by, check_x, check_y);
+        if(mapObject.x > check_x || mapObject.bx < check_x){
+            console.log('abc');
+            return false;
+        }
+        if(mapObject.y > check_y || mapObject.by < check_y){
+            console.log('def');
+            return false;
+        }
+        return true;
     },
     onenterframe: function(){
         this.movingFlag = false;
@@ -192,9 +245,30 @@ Player = Class.create(Sprite, {
                 case  1: this.y -= this.speed;break;
             }
         }
-        console.log(this.x, this.y);
+        //console.log(this.x, this.y);
     }
 });
+
+
+/*
+ * マップに配置するオブジェクト
+ */
+MapObject = Class.create(Sprite, {
+    initialize: function(width, height, magnification, imageFile, frame, x, y){
+        Sprite.call(this, width, height);
+        this.image = game.assets[imageFile];
+        this.frame = frame;
+        this.x = x;
+        this.y = y;
+        this.bx = this.x + this.width;
+        this.by = this.y + this.height;
+        //console.log(this.x, this.y, this.bx, this.by);
+    },
+    actionEvent: function(){
+        console.log("event");
+    },
+});
+
 
 /*
  * マップの壁との衝突判定とA*のための配列の準備
@@ -232,7 +306,20 @@ Map1_1 = Class.create(BreakFace_Map, {
             'C': new Position(0, 230),
             'D': new Position(450, 230),
         };
+
+        mapObjects = [];
+
+        var mapobj1 = new MapObject(16, 16, 1, './img/map1.png', [12], 10, 20);
+        var mapobj2 = new MapObject(16, 16, 1, './img/map1.png', [11], 50, 100);
+        mapObjects.push(mapobj1);
+        mapObjects.push(mapobj2);
+    },
+    remove: function(){
+        for (mapobj in mapObjects){
+            breakface.removeChild(mapobj);
+        }
     }
+
 });
 
 Map1_2 = Class.create(BreakFace_Map, {
@@ -333,6 +420,14 @@ BreakFace = Class.create(Scene, {
         this.addChild(map);
         this.addChild(player);
         this.addChild(monster);
+
+        /*var mapobj1 = new MapObject(16, 16, 1, './img/map1.png', [12], 10, 20);
+        var mapobj2 = new MapObject(16, 16, 1, './img/map1.png', [11], 50, 100);
+        this.addChild(mapobj1);
+        this.addChild(mapobj2);*/
+        for(i = 0; i < mapObjects.length; i++){
+            this.addChild(mapObjects[i]);
+        }
     },
 });
 
@@ -341,10 +436,10 @@ BreakFace = Class.create(Scene, {
  */
 window.onload = function () {
     game = new Game(480, 320);
-    game.preload('./img/map0.png', './img/chara0.png');
+    game.preload('./img/map0.png', './img/chara0.png', './img/map1.png');
 
     game.onload = function () {
-        game.keybind('s'.charCodeAt(0), 's');
+        game.keybind(' '.charCodeAt(0), 'space');
 
         scene_top = new Scene();
         label_title = new Label();
