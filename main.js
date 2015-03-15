@@ -113,6 +113,9 @@ Player = Class.create(Sprite, {
         this.directionY = 0
         this.movingFlag = false;
         this.direction = 1;
+        game.addEventListener('spacebuttondown', function(){
+            console.log('spacebuttondown');
+        });
     },
     setPos: function(x, y){
         this.x = x;
@@ -192,7 +195,7 @@ Player = Class.create(Sprite, {
                 case  1: this.y -= this.speed;break;
             }
         }
-        console.log(this.x, this.y);
+        //console.log(this.x, this.y);
     }
 });
 
@@ -341,10 +344,10 @@ BreakFace = Class.create(Scene, {
  */
 window.onload = function () {
     game = new Game(480, 320);
-    game.preload('./img/map0.png', './img/chara0.png');
+    game.preload('./img/map0.png', './img/chara0.png', 'testbgm.mp3');
 
     game.onload = function () {
-        game.keybind('s'.charCodeAt(0), 's');
+        game.keybind(' '.charCodeAt(0), 'space');
 
         scene_top = new Scene();
         label_title = new Label();
@@ -354,6 +357,15 @@ window.onload = function () {
         label_title.scaleY = 2.0;
         label_title.text = "BREAK FACE";
         scene_top.addChild(label_title);
+
+        /*if(game.assets['testbgm.mp3'].src){
+            game.assets['testbgm.mp3'].play();
+            game.assets['testbgm.mp3'].src.loop = true;
+        }else{
+            game.onenterframe = function(){
+                game.assets['testbgm.mp3'].play();
+            }
+        }*/
 
         scene_top.addEventListener('touchend', function(){
             breakface = new BreakFace();
