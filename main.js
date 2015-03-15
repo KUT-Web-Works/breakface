@@ -146,8 +146,7 @@ Player = Class.create(Sprite, {
             check_x = player.x;
             check_y = player.y;
             for(i = 0; i < mapObjects.length; i++){
-                var a = player.isHitObject(mapObjects[i], check_x, check_y);
-                if(a){
+                if(player.isHitObject(mapObjects[i], check_x, check_y)){
                     mapObjects[i].actionEvent();
                     break;
                 }
@@ -421,10 +420,15 @@ BreakFace = Class.create(Scene, {
         this.addChild(player);
         this.addChild(monster);
 
-        /*var mapobj1 = new MapObject(16, 16, 1, './img/map1.png', [12], 10, 20);
-        var mapobj2 = new MapObject(16, 16, 1, './img/map1.png', [11], 50, 100);
-        this.addChild(mapobj1);
-        this.addChild(mapobj2);*/
+        if(game.assets['./music/samplebgm_1.mp3'].src){
+            game.assets['./music/samplebgm_1.mp3'].play();
+            game.assets['./music/samplebgm_1.mp3'].src.loop = true;
+        }else{
+            game.onenterframe = function(){
+                game.assets['./music/samplebgm_1.mp3'].play();
+            }
+        }
+
         for(i = 0; i < mapObjects.length; i++){
             this.addChild(mapObjects[i]);
         }
@@ -436,7 +440,10 @@ BreakFace = Class.create(Scene, {
  */
 window.onload = function () {
     game = new Game(480, 320);
-    game.preload('./img/map0.png', './img/chara0.png', './img/map1.png');
+    game.preload(
+        './img/map0.png', './img/chara0.png', './img/map1.png',
+        './music/samplebgm_1.mp3', './music/samplebgm_2.mp3'
+    );
 
     game.onload = function () {
         game.keybind(' '.charCodeAt(0), 'space');
