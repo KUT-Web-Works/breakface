@@ -126,25 +126,23 @@ Player = Class.create(Sprite, {
                     break;
                 /* right */
                 case 2:
-                    check_x = player.x + 48;
-                    check_y = player.y + 16;
+                    check_x = player.x + 32;
+                    check_y = player.y + 20;
                     break;
                 /* left */
                 case -2:
-                    check_x = player.x - 16;
-                    check_y = player.y + 16;
+                    check_x = player.x;
+                    check_y = player.y + 20;
                     break;
                 /* down */
                 case 1:
                     check_x = player.x + 16;
-                    check_y = player.y + 48;
+                    check_y = player.y + 32;
                     break;
                 default:
                     /* error */
                     break;
             }
-            //check_x = player.x;
-            //check_y = player.y;
             for(i = 0; i < mapObjects.length; i++){
                 if(player.isHitObject(mapObjects[i], check_x, check_y)){
                     mapObjects[i].actionEvent();
