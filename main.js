@@ -122,7 +122,7 @@ Player = Class.create(Sprite, {
                 /* up */
                 case -1:
                     check_x = player.x + 16;
-                    check_y = player.y - 16;
+                    check_y = player.y;
                     break;
                 /* right */
                 case 2:
@@ -143,8 +143,8 @@ Player = Class.create(Sprite, {
                     /* error */
                     break;
             }
-            check_x = player.x;
-            check_y = player.y;
+            //check_x = player.x;
+            //check_y = player.y;
             for(i = 0; i < mapObjects.length; i++){
                 if(player.isHitObject(mapObjects[i], check_x, check_y)){
                     mapObjects[i].actionEvent();
@@ -169,17 +169,32 @@ Player = Class.create(Sprite, {
         return ret;
     },
     isHitObject: function(mapObject, check_x, check_y){
-        console.log(mapObject);
-        console.log(mapObject.x, mapObject.y, mapObject.bx, mapObject.by, check_x, check_y);
         if(mapObject.x > check_x || mapObject.bx < check_x){
-            console.log('abc');
+            //console.log('abc');
             return false;
         }
         if(mapObject.y > check_y || mapObject.by < check_y){
-            console.log('def');
+            //console.log('def');
             return false;
         }
+        console.log(mapObject.x, mapObject.y, mapObject.bx, mapObject.by, check_x, check_y);
         return true;
+    },
+    isCollidingWithMapObject: function(mapObject){
+        var isHitDot = function(x, y){
+            if(x < player.x + 8 || player.x + player.width - 8 < x){
+                return false;
+            }
+            if(y < player.y + 8 || player.y + player.height < y){
+                return false;
+            }
+            return true;
+        }
+        if(isHitDot(mapObject.x, mapObject.y)){console.log('1');return true;}
+        if(isHitDot(mapObject.x, mapObject.y + mapObject.height)){console.log('2');return true;}
+        if(isHitDot(mapObject.x + mapObject.width, mapObject.y)){console.log('3');return true;}
+        if(isHitDot(mapObject.x + mapObject.width, mapObject.y + mapObject.height)){console.log('4');return true;}
+        return false;
     },
     onenterframe: function(){
         this.movingFlag = false;
@@ -232,6 +247,7 @@ Player = Class.create(Sprite, {
             }
         }
 
+        /* 壁とのあたり判定 */
         if (map.hitTest(this.x + 10, this.y + 20) ||                     // upper left
             map.hitTest(this.x + this.width - 10, this.y + 20) ||        // upper right
             map.hitTest(this.x + 10, this.y + this.height) ||            // lower left
@@ -244,7 +260,20 @@ Player = Class.create(Sprite, {
                 case  1: this.y -= this.speed;break;
             }
         }
-        //console.log(this.x, this.y);
+
+        /* map内オブジェクトとのあたり判定 */
+        for(i = 0; i < mapObjects.length; i++){
+            if(this.isCollidingWithMapObject(mapObjects[i])){
+                //console.log("intersect", i);
+                switch(this.direction){
+                    case -1: this.y = mapObjects[i].y + 9; break;
+                    case  2: this.x = mapObjects[i].x - this.width + 7; break;
+                    case -2: this.x = mapObjects[i].x + mapObjects[i].width - 7; break;
+                    case  1: this.y = mapObjects[i].y - this.height - 1; break;
+                }
+                break;
+            }
+        }
     }
 });
 
@@ -308,10 +337,12 @@ Map1_1 = Class.create(BreakFace_Map, {
 
         mapObjects = [];
 
-        var mapobj1 = new MapObject(16, 16, 1, './img/map1.png', [12], 10, 20);
-        var mapobj2 = new MapObject(16, 16, 1, './img/map1.png', [11], 50, 100);
+        var mapobj1 = new MapObject(16, 16, 1, './img/map1.png', [12], 0, 0);
+        var mapobj2 = new MapObject(16, 16, 1, './img/map1.png', [11], 16, 16);
+        var mapobj3 = new MapObject(16, 16, 1, './img/map1.png', [11], 97, 60);
         mapObjects.push(mapobj1);
         mapObjects.push(mapobj2);
+        mapObjects.push(mapobj3);
     },
     remove: function(){
         for (mapobj in mapObjects){
@@ -415,19 +446,20 @@ BreakFace = Class.create(Scene, {
         Scene.call(this);
         map = new Map1_1();
         player = new Player(300, 50);
-        monster = new Monster(330, 208, player);
+        //monster = new Monster(330, 208, player);
         this.addChild(map);
         this.addChild(player);
-        this.addChild(monster);
+        //this.addChild(monster);
 
-        if(game.assets['./music/samplebgm_1.mp3'].src){
+        /* music play */
+        /*if(game.assets['./music/samplebgm_1.mp3'].src){
             game.assets['./music/samplebgm_1.mp3'].play();
             game.assets['./music/samplebgm_1.mp3'].src.loop = true;
         }else{
             game.onenterframe = function(){
                 game.assets['./music/samplebgm_1.mp3'].play();
             }
-        }
+        }*/
 
         for(i = 0; i < mapObjects.length; i++){
             this.addChild(mapObjects[i]);
