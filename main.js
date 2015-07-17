@@ -196,6 +196,10 @@ Player = Class.create(Sprite, {
             }
         }
         //console.log(this.x, this.y);
+        if(this.x < 50 && (this.y > 100 && this.y < 160)) {
+          br = new BreakFace(Map2_2);
+          game.pushScene(br);
+        }
     }
 });
 
@@ -370,9 +374,9 @@ Map_exit = Class.create(BreakFace_Map, {
  * ゲーム本体のシーン
  */
 BreakFace = Class.create(Scene, {
-    initialize: function(){
+    initialize: function(map_prace){
         Scene.call(this);
-        map = new Map_exit;
+        map = new map_prace;
         player = new Player(300, 50);
         monster = new Monster(330, 208, player);
         this.addChild(map);
@@ -410,7 +414,7 @@ window.onload = function () {
         }*/
 
         scene_top.addEventListener('touchend', function(){
-            breakface = new BreakFace();
+            breakface = new BreakFace(Map_exit);
             game.pushScene(breakface);
         });
 
