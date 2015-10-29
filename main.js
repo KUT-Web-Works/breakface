@@ -428,6 +428,19 @@ Map2_4 = Class.create(BreakFace_Map, {
     }
 });
 
+Map_B1 = Class.create(BreakFace_Map, {
+    initialize: function(){
+        BreakFace_Map.call(this, 30, 20, mapData_B1_col);
+        this.image = game.assets['./img/map0.png'];
+        this.loadData(mapData_B1_0, mapData_B1_1);
+        this.eventPos = {
+            'A': new Position(0, 50),
+            'B': new Position(450, 50),
+            'C': new Position(0, 230),
+            'D': new Position(450, 230),
+        };
+    }
+});
 Map_clockTower = Class.create(BreakFace_Map, {
     initialize: function(){
         BreakFace_Map.call(this, 30, 20, mapData_clockTower_col);
@@ -447,6 +460,34 @@ Map_exit = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData_exit_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData_exit_0, mapData_exit_1);
+        this.eventPos = {
+            'A': new Position(0, 50),
+            'B': new Position(450, 50),
+            'C': new Position(0, 230),
+            'D': new Position(450, 230),
+        };
+    }
+});
+
+Map_lab = Class.create(BreakFace_Map, {
+    initialize: function(){
+        BreakFace_Map.call(this, 30, 20, mapData_lab_col);
+        this.image = game.assets['./img/map0.png'];
+        this.loadData(mapData_lab_0, mapData_lab_1);
+        this.eventPos = {
+            'A': new Position(0, 50),
+            'B': new Position(450, 50),
+            'C': new Position(0, 230),
+            'D': new Position(450, 230),
+        };
+    }
+});
+
+Map_kyomu = Class.create(BreakFace_Map, {
+    initialize: function(){
+        BreakFace_Map.call(this, 30, 20, mapData_kyomu_col);
+        this.image = game.assets['./img/map0.png'];
+        this.loadData(mapData_kyomu_0, mapData_kyomu_1);
         this.eventPos = {
             'A': new Position(0, 50),
             'B': new Position(450, 50),
