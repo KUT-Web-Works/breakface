@@ -276,13 +276,13 @@ Map1_2 = Class.create(BreakFace_Map, {
         this.mapPos = {
             'A' : {
                 'map_name': Map1_3,
-                'x_1': 0,
+                'x_1': 8,
                 'y_1': 0 , 
                 'y_2': 450, 
             },
             'B' : {
                 'map_name': Map1_1,
-                'x_1': 460,
+                'x_1': 444,
                 'y_1': 0 , 
                 'y_2': 450, 
             },
