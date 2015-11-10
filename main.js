@@ -123,6 +123,9 @@ Player = Class.create(Sprite, {
         this.y = y;
         this.frame = [4];
     },
+    judgeChengeMap: function() {
+        console.log("hello map");
+    },
     enable: function(){
         this.flag = true;
     },
@@ -198,7 +201,6 @@ Player = Class.create(Sprite, {
         }
         
         console.log(this.x);
-
         if(this.next.A) {
             if(this.x < this.next.A["x_1"]) {
                 if(this.y > this.next.A["y_1"] && this.next.A["y_2"] > this.y) {
@@ -216,15 +218,6 @@ Player = Class.create(Sprite, {
                 }
             }
         }
-
-        /*
-        if(this.next.mapPos) {
-            if(this.x < this.next.mapPos["x_1"] && (this.y > this.next.mapPos["y_1"] && this.next.mapPos["y_2"] > this.y)) {
-                br = new BreakFace(this.next.mapPos["map_name"]);
-                game.pushScene(br);
-            }
-        }
-        */
     }
 });
 
