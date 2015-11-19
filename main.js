@@ -107,9 +107,10 @@ Player = Class.create(Sprite, {
     initialize: function(x, y, next){
         Sprite.call(this, 32, 32);
         this.next = next.mapPos;
+        this.pos = next.eventPos;
         this.image = game.assets['./img/chara0.png'];
         this.setPos(x, y);
-        this.speed = 3;
+        this.speed = 7;
         this.directionX = 0;
         this.directionY = 0
         this.movingFlag = false;
@@ -200,11 +201,13 @@ Player = Class.create(Sprite, {
             }
         }
         
-        console.log(this.x);
+        console.log("x = " + this.x);
+        console.log("y = " + this.y);
+
         if(this.next.A) {
             if(this.x < this.next.A["x_1"]) {
                 if(this.y > this.next.A["y_1"] && this.next.A["y_2"] > this.y) {
-                  br = new BreakFace(this.next.A["map_name"]);
+                  br = new BreakFace(this.next.A["map_name"], this.pos.A);
                   game.pushScene(br);
                 }
             }
@@ -288,7 +291,7 @@ Map1_2 = Class.create(BreakFace_Map, {
             },
         };
         this.eventPos = {
-            'A': new Position(0, 50),
+            'A': new Position(450, 130),
             'B': new Position(450, 50),
             'C': new Position(0, 230),
             'D': new Position(450, 230),
@@ -494,10 +497,11 @@ Map_kyomu = Class.create(BreakFace_Map, {
  * ゲーム本体のシーン
  */
 BreakFace = Class.create(Scene, {
-    initialize: function(map_prace){
+    initialize: function(map_prace, pos){
         Scene.call(this);
+
         map = new map_prace;
-        player = new Player(300, 50, map);
+        player = new Player(pos.x, pos.y, map);
         monster = new Monster(330, 208, player);
         this.addChild(map);
         this.addChild(player);
@@ -515,6 +519,7 @@ window.onload = function () {
     game.onload = function () {
         game.keybind(' '.charCodeAt(0), 'space');
 
+        default_map = new Position(300, 50);
         scene_top = new Scene();
         label_title = new Label();
         label_title.x = 300;
@@ -534,7 +539,7 @@ window.onload = function () {
         }*/
 
         scene_top.addEventListener('touchend', function(){
-            breakface = new BreakFace(Map1_2);
+            breakface = new BreakFace(Map1_2, default_map);
             game.pushScene(breakface);
         });
 
