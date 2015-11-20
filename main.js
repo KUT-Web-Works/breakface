@@ -9,6 +9,14 @@ Position = function(x, y){
     this.y = y;
 }
 
+Transition = function(mapData, top, bottom, left, right){
+    this.mapData = mapData;
+    this.top = top;
+    this.bottom = bottom;
+    this.left = left;
+    this.right = right;
+}
+
 
 /*
  * ばけもんに関する処理
@@ -205,10 +213,11 @@ Player = Class.create(Sprite, {
         console.log("y = " + this.y);
 
         console.log("left = " + this.next.A["left"]);
+
         if(this.next.A) {
             if(this.next.A["left"] < this.x  && this.x < this.next.A["right"]) {
                 if(this.next.A["top"] < this.y && this.y < this.next.A["bottom"]) {
-                  br = new BreakFace(this.next.A["map_name"], this.pos.A);
+                  br = new BreakFace(this.next.A["mapData"], this.pos.A);
                   game.pushScene(br);
                 }
             }
@@ -216,7 +225,7 @@ Player = Class.create(Sprite, {
         if(this.next.B) {
             if(this.next.B["left"] < this.x  && this.x < this.next.B["right"]) {
                 if(this.next.B["top"] < this.y && this.y < this.next.B["bottom"]) {
-                  br = new BreakFace(this.next.B["map_name"], this.pos.B);
+                  br = new BreakFace(this.next.B["mapData"], this.pos.B);
                   game.pushScene(br);
                 }
             }
@@ -224,7 +233,7 @@ Player = Class.create(Sprite, {
         if(this.next.C) {
             if(this.next.C["left"] < this.x  && this.x < this.next.C["right"]) {
                 if(this.next.C["top"] < this.y && this.y < this.next.C["bottom"]) {
-                  br = new BreakFace(this.next.C["map_name"], this.pos.C);
+                  br = new BreakFace(this.next.C["mapData"], this.pos.C);
                   game.pushScene(br);
                 }
             }
@@ -232,7 +241,7 @@ Player = Class.create(Sprite, {
         if(this.next.D) {
             if(this.next.D["left"] < this.x  && this.x < this.next.D["right"]) {
                 if(this.next.D["top"] < this.y && this.y < this.next.D["bottom"]) {
-                  br = new BreakFace(this.next.D["map_name"], this.pos.D);
+                  br = new BreakFace(this.next.D["mapData"], this.pos.D);
                   game.pushScene(br);
                 }
             }
@@ -271,16 +280,10 @@ Map1_1 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData1_1_0, mapData1_1_1);
         this.mapPos = {
-            'A' : {
-                'map_name': Map1_2,
-                'top': 0,
-                'bottom': 450,
-                'left': 0, 
-                'right': 8, 
-            },
+            'A': new Transition(Map1_2, 0, 450, 0, 8),
         };
         this.eventPos = {
-            'A': new Position(350, 135),
+            'A': new Position(440, 135),
             'B': new Position(450, 50),
             'C': new Position(0, 230),
             'D': new Position(450, 230),
@@ -294,20 +297,8 @@ Map1_2 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData1_2_0, mapData1_2_1);
         this.mapPos = {
-            'A' : {
-                'map_name': Map1_1,
-                'top': 0,
-                'bottom': 450 , 
-                'left': 440, 
-                'right': 470, 
-            },
-            'B' : {
-                'map_name': Map1_3,
-                'top': 0,
-                'bottom': 450 , 
-                'left': 0, 
-                'right': 8, 
-            },
+            'A': new Transition(Map1_1, 0, 450, 440, 470),
+            'B': new Transition(Map1_3, 0, 450, 0, 8),
         };
         this.eventPos = {
             'A': new Position(4, 135),
@@ -324,20 +315,8 @@ Map1_3 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData1_3_0, mapData1_3_1);
         this.mapPos = {
-            'A' : {
-                'map_name': Map1_2,
-                'top': 0,
-                'bottom': 450 , 
-                'left': 440, 
-                'right': 470, 
-            },
-            'B' : {
-                'map_name': Map1_4,
-                'top': 0,
-                'bottom': 450 , 
-                'left': 0, 
-                'right': 8, 
-            },
+            'A': new Transition(Map1_2, 0, 450, 440, 470),
+            'B': new Transition(Map1_4, 0, 450, 0, 8),
         };
         this.eventPos = {
             'A': new Position(8, 135),
@@ -354,13 +333,7 @@ Map1_4 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData1_4_0, mapData1_4_1);
         this.mapPos = {
-            'A' : {
-                'map_name': Map1_3,
-                'top': 0,
-                'bottom': 450 , 
-                'left': 440, 
-                'right': 470, 
-            },
+            'A': new Transition(Map1_3, 0, 450, 440, 470),
         };
         this.eventPos = {
             'A': new Position(8, 135),
@@ -513,9 +486,9 @@ Map_kyomu = Class.create(BreakFace_Map, {
  * ゲーム本体のシーン
  */
 BreakFace = Class.create(Scene, {
-    initialize: function(map_prace, pos){
+    initialize: function(mapData, pos){
         Scene.call(this);
-        map = new map_prace;
+        map = new mapData;
         player = new Player(pos.x, pos.y, map);
         monster = new Monster(330, 208, player);
         this.addChild(map);
