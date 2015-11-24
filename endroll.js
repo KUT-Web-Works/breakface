@@ -1,20 +1,6 @@
-var GAME_WIDTH = 320;
-var GAME_HEIGHT = 320;
-
-enchant();
-
-window.onload = function() {
-    game = new Game(GAME_WIDTH, GAME_WIDTH);
-    
-    game.fps = 16;
-
-    game.onload = function() {
-	game.pushScene(createEndingScene());
-    };
-
-    game.start();
-
-};
+function endroll(){
+  game.pushScene(createEndingScene());
+}
 
 function createEndingScene() {
     var scene = new Scene();
@@ -38,25 +24,14 @@ function createEndingScene() {
     var dispY = 0;
     var aryObj = new Array(aryText.length);
    
-      for (var i=0; i<aryObj.length; i++) {
-	  /*if (i == 3){
-            console.log("a");
-	} else {*/
-	    aryObj[i] = new EndingLabel(0, dispY);
-            aryObj[i].text = aryText[i];
-	    aryObj[i].addEventListener(Event.ENTER_FRAME,function(){this.y-=2;});
-	//}
-	aryObj[i].y = aryY[i] + 350;
-	scene.addChild(aryObj[i]);
+    for (var i=0; i<aryObj.length; i++) {
+       aryObj[i] = new EndingLabel(0, dispY);
+       aryObj[i].text = aryText[i];
+       aryObj[i].addEventListener(Event.ENTER_FRAME,function(){this.y-=2;});
+       aryObj[i].y = aryY[i] + 350;
+       scene.addChild(aryObj[i]);
     }
 
-    //シーンの定期処理
-/*    scene.addEventListener(Event.ENTER_FRAME, function(){
-    //エンドロールが終わったら最後のメッセージを表示
-	if (aryObj[aryObj.length-1].y < -50) {
-	    scene.addChild(lastLabel);
-	}
-    });*/
     return scene;
 }
 
@@ -70,3 +45,7 @@ EndingLabel = Class.create(Label,{
 	this.color = "rgb(255, 255, 255)";
     }
 });
+
+/*function hello(){
+    console.log("hello");
+}*/
