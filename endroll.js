@@ -45,7 +45,3 @@ EndingLabel = Class.create(Label,{
 	this.color = "rgb(255, 255, 255)";
     }
 });
-
-/*function hello(){
-    console.log("hello");
-}*/
