@@ -54,7 +54,7 @@ Map1_1 = Class.create(BreakFace_Map, {
         };
         this.eventPos = {
             'A': new Position(440, 135),
-            'B': new Position(130, 0),
+            'B': new Position(320, 20),
         };
     }
 });
@@ -90,7 +90,7 @@ Map1_3 = Class.create(BreakFace_Map, {
         this.eventPos = {
             'A': new Position(8, 135),
             'B': new Position(440, 135),
-            'C': new Position(385, 270),
+            'C': new Position(385, 255),
         };
     }
 });
@@ -107,8 +107,8 @@ Map1_4 = Class.create(BreakFace_Map, {
         };
         this.eventPos = {
             'A': new Position(8, 135),
-            'B': new Position(320, 0),
-            'C': new Position(310, 135),
+            'B': new Position(320, 15),
+            'C': new Position(290, 135),
         };
     }
 });
@@ -187,11 +187,11 @@ Map_B1 = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData_B1_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData_B1_0, mapData_B1_1);
+        this.mapPos = {
+            'A': new Transition(Map1_4, 0, 450, 290, 480),
+        };
         this.eventPos = {
-            'A': new Position(0, 50),
-            'B': new Position(450, 50),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
+            'A': new Position(50, 255),
         };
     }
 });
