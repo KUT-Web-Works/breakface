@@ -50,12 +50,11 @@ Map1_1 = Class.create(BreakFace_Map, {
         this.loadData(mapData1_1_0, mapData1_1_1);
         this.mapPos = {
             'A': new Transition(Map1_2, 0, 450, 0, 8),
+            'B': new Transition(Map2_1, -30, 0, 0, 480),
         };
         this.eventPos = {
             'A': new Position(440, 135),
-            'B': new Position(450, 50),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
+            'B': new Position(320, 20),
         };
     }
 });
@@ -86,12 +85,12 @@ Map1_3 = Class.create(BreakFace_Map, {
         this.mapPos = {
             'A': new Transition(Map1_2, 0, 450, 440, 470),
             'B': new Transition(Map1_4, 0, 450, 0, 8),
+            'C': new Transition(Map2_3, 260, 450, 0, 470), 
         };
         this.eventPos = {
             'A': new Position(8, 135),
             'B': new Position(440, 135),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
+            'C': new Position(385, 255),
         };
     }
 });
@@ -103,12 +102,13 @@ Map1_4 = Class.create(BreakFace_Map, {
         this.loadData(mapData1_4_0, mapData1_4_1);
         this.mapPos = {
             'A': new Transition(Map1_3, 0, 450, 440, 470),
+            'B': new Transition(Map2_4, -30, 0, 0, 480),
+            'C': new Transition(Map_B1, 260, 450, 0, 480),
         };
         this.eventPos = {
             'A': new Position(8, 135),
-            'B': new Position(450, 50),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
+            'B': new Position(320, 15),
+            'C': new Position(290, 135),
         };
     }
 });
@@ -178,11 +178,11 @@ Map_B1 = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData_B1_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData_B1_0, mapData_B1_1);
+        this.mapPos = {
+            'A': new Transition(Map1_4, 0, 450, 290, 480),
+        };
         this.eventPos = {
-            'A': new Position(0, 50),
-            'B': new Position(450, 50),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
+            'A': new Position(50, 255),
         };
     }
 });
