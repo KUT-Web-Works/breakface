@@ -118,12 +118,10 @@ Map2_1 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_1_0, mapData2_1_1);
         this.mapPos = {
+            'A': new Transition(Map1_1, -30, 0, 300, 340),
         };
         this.eventPos = {
-            'A': new Position(0, 50),
-            'B': new Position(450, 50),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
+            'A': new Position(320, 20),
         };
     }
 });
@@ -286,7 +284,7 @@ window.onload = function () {
         }*/
 
         scene_top.addEventListener('touchend', function(){
-            breakface = new BreakFace(Map1_2, default_map);
+            breakface = new BreakFace(Map2_1, default_map);
             game.pushScene(breakface);
         });
 
