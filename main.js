@@ -119,6 +119,8 @@ Map2_1 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_1_0, mapData2_1_1);
         this.mapPos = {
+            'A': new Transition(Map, 0, 450, 440, 470),
+            'B': new Transition(Map, 0, 450, 0, 8),
         };
         this.eventPos = {
             'A': new Position(0, 50),
@@ -134,6 +136,9 @@ Map2_2 = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData2_2_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_2_0, mapData2_2_1);
+        this.mapPos = {
+            'A': new Position(Map2, 0, 450, 440, 470),
+	};
         this.eventPos = {
             'A': new Position(0, 50),
             'B': new Position(450, 50),
@@ -148,13 +153,14 @@ Map2_3 = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData2_3_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_3_0, mapData2_3_1);
+        this.mapPos = {
+            'A': new Transition(Map2_4, 0, 200, 440, 470),
+            'B': new Position(Map2_4, 0, 200, 0, 100),
+            'C': new Position(Map),
+	};
         this.eventPos = {
             'A': new Position(0, 50),
-            'B': new Position(450, 50),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
-            'E': new Position(390, 0),
-            'F': new Position(380, 280),
+            'B': new Position(0, 400),
         };
     }
 });
@@ -164,11 +170,14 @@ Map2_4 = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData2_4_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_4_0, mapData2_4_1);
+        this.mapPos = {
+            'A': new Transition(Map2_3, 0, 470, 0, 200),
+            'B': new Transition(Map2-3, 0, 470, 220, 470),
+	};
         this.eventPos = {
             'A': new Position(0, 50),
-            'B': new Position(450, 50),
-            'C': new Position(0, 230),
-            'D': new Position(450, 230),
+            'B': new Position(0, 230),
+
         };
     }
 });
@@ -287,7 +296,7 @@ window.onload = function () {
         }*/
 
         scene_top.addEventListener('touchend', function(){
-            breakface = new BreakFace(Map1_2, default_map);
+            breakface = new BreakFace(Map2_4, default_map);
             game.pushScene(breakface);
         });
 
