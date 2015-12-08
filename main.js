@@ -42,7 +42,6 @@ BreakFace_Map = Class.create(Map, {
     },
 });
 
-
 Map1_1 = Class.create(BreakFace_Map, {
     initialize: function(){
         BreakFace_Map.call(this, 30, 20, mapData1_1_col);
@@ -188,7 +187,7 @@ Map_B1 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData_B1_0, mapData_B1_1);
         this.mapPos = {
-            'A': new Transition(Map1_4, 0, 450, 290, 480),
+            'A': new Transition(Map1_4, 0, 450, 300, 480),
         };
         this.eventPos = {
             'A': new Position(50, 255),
