@@ -85,7 +85,7 @@ Map1_3 = Class.create(BreakFace_Map, {
         this.mapPos = {
             'A': new Transition(Map1_2, 0, 450, 440, 470),
             'B': new Transition(Map1_4, 0, 450, 0, 8),
-            'C': new Transition(Map2_3, 260, 450, 0, 470), 
+            'C': new Transition(Map2_3, 270, 450, 0, 470), 
         };
         this.eventPos = {
             'A': new Position(8, 135),
@@ -137,7 +137,7 @@ Map2_2 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_2_0, mapData2_2_1);
         this.mapPos = {
-            'A': new Position(Map2, 0, 450, 440, 470),
+            //'A': new Transition(Map2, 0, 450, 440, 470),
 	};
         this.eventPos = {
             'A': new Position(0, 50),
@@ -154,13 +154,19 @@ Map2_3 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_3_0, mapData2_3_1);
         this.mapPos = {
-            'A': new Transition(Map2_4, 0, 200, 440, 470),
-            'B': new Position(Map2_4, 0, 200, 0, 100),
-            'C': new Position(Map),
+            'A': new Transition(Map2_4, 0, 120, 0, 15),
+            'B': new Transition(Map2_4, 130, 480, 0, 15),
+            'C': new Transition(Map2_2, 0, 120, 435, 480),
+            'D': new Transition(Map2_2, 130, 480, 435, 480),
+            'E': new Transition(Map1_3, 270, 450, 0, 470),
+
 	};
         this.eventPos = {
-            'A': new Position(0, 50),
-            'B': new Position(0, 400),
+            'A': new Position(430, 50),
+            'B': new Position(430, 230),
+            'C': new Position(20, 55),
+            'D': new Position(20, 232),
+            'E': new Position(385, 255),
         };
     }
 });
@@ -171,12 +177,14 @@ Map2_4 = Class.create(BreakFace_Map, {
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_4_0, mapData2_4_1);
         this.mapPos = {
-            'A': new Transition(Map2_3, 0, 470, 0, 200),
-            'B': new Transition(Map2-3, 0, 470, 220, 470),
+            'A': new Transition(Map2_3, 0, 120, 430, 480),
+            'B': new Transition(Map2_3, 130, 480, 430, 480),
+            'C': new Transition(Map1_4, -20, 9, 300, 330),
 	};
         this.eventPos = {
-            'A': new Position(0, 50),
-            'B': new Position(0, 230),
+            'A': new Position(20, 60),
+            'B': new Position(20, 230),
+            'C': new Position(320, 15),
 
         };
     }
@@ -296,7 +304,7 @@ window.onload = function () {
         }*/
 
         scene_top.addEventListener('touchend', function(){
-            breakface = new BreakFace(Map2_4, default_map);
+            breakface = new BreakFace(Map2_3, default_map);
             game.pushScene(breakface);
         });
 

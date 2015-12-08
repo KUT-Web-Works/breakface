@@ -136,6 +136,14 @@ Player = Class.create(Sprite, {
                 }
             }
         }
+        if(this.next.E) {
+            if(this.next.E["left"] < this.x  && this.x < this.next.E["right"]) {
+                if(this.next.E["top"] < this.y && this.y < this.next.E["bottom"]) {
+                  br = new BreakFace(this.next.E["mapData"], this.pos.E);
+                  game.pushScene(br);
+                }
+            }
+        }
     }
 });
 
