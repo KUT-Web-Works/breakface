@@ -117,16 +117,7 @@ Map2_1 = Class.create(BreakFace_Map, {
         BreakFace_Map.call(this, 30, 20, mapData2_1_col);
         this.image = game.assets['./img/map0.png'];
         this.loadData(mapData2_1_0, mapData2_1_1);
-        this.next = {
-            'map1': Map2_2,
-            'x': 0,
-            'y1': 0 , 
-            'y2': 160, 
-            'map2': Map2_3,
-            'x2': 0,
-            'y3': 200 , 
-            'y4': 400, 
-        
+        this.mapPos = {
         };
         this.eventPos = {
             'A': new Position(0, 50),
